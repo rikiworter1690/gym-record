@@ -11,7 +11,7 @@
   --border: #2A2F3D;
   --text: #F3F4F7;
   --text-dim: #9AA1B4;
-  --text-faint: #626A80;
+  --text-faint: #7A83A0;
 
   --orange: #FF6B35;
   --orange-dim: #7A3A22;
@@ -33,6 +33,11 @@
 
 * { box-sizing: border-box; }
 
+html {
+  /* 基準フォントサイズを大きめに設定し、全体を底上げする */
+  font-size: 18px;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -41,6 +46,7 @@ html, body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  line-height: 1.5;
 }
 
 body {
@@ -69,7 +75,7 @@ body {
   font-family: var(--font-display);
   font-weight: 400;
   letter-spacing: 0.04em;
-  font-size: 28px;
+  font-size: 34px;
   margin: 0;
   color: var(--text);
 }
@@ -87,14 +93,14 @@ body {
   white-space: nowrap;
 }
 
-.month-badge__label { font-size: 11px; font-weight: 700; opacity: 0.75; }
+.month-badge__label { font-size: 14px; font-weight: 700; opacity: 0.8; }
 .month-badge__count {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 34px;
   line-height: 1;
-  margin: 0 1px;
+  margin: 0 2px;
 }
-.month-badge__unit { font-size: 12px; font-weight: 700; }
+.month-badge__unit { font-size: 15px; font-weight: 700; }
 
 /* ===== カード共通 ===== */
 .main { display: flex; flex-direction: column; gap: 16px; }
@@ -120,7 +126,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 15px;
+  font-size: 19px;
   font-weight: 700;
   margin: 0;
   color: var(--text);
@@ -139,7 +145,7 @@ body {
 /* ===== 目標カード ===== */
 .goal-text {
   margin: 0;
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.6;
   color: var(--text-dim);
 }
@@ -149,9 +155,9 @@ body {
 .btn {
   border: none;
   border-radius: 999px;
-  padding: 9px 16px;
+  padding: 11px 18px;
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.12s ease, opacity 0.12s ease;
@@ -167,15 +173,16 @@ body {
   background: var(--mint);
   color: #08281A;
   width: 100%;
-  padding: 13px 16px;
-  font-size: 15px;
+  padding: 16px 16px;
+  font-size: 18px;
 }
 .btn--danger {
   background: transparent;
   border: 1px solid var(--danger);
   color: var(--danger);
   width: 100%;
-  padding: 11px 16px;
+  padding: 14px 16px;
+  font-size: 16px;
 }
 .btn--accent {
   background: linear-gradient(135deg, var(--purple), #8F6FE0);
@@ -194,9 +201,9 @@ body {
   margin-bottom: 14px;
 }
 .field label {
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
-  color: var(--text-faint);
+  color: var(--text-dim);
   letter-spacing: 0.02em;
 }
 .field input[type="date"],
@@ -206,8 +213,8 @@ body {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   color: var(--text);
-  padding: 11px 12px;
-  font-size: 15px;
+  padding: 13px 14px;
+  font-size: 18px;
   font-family: var(--font-body);
   width: 100%;
 }
@@ -218,11 +225,11 @@ body {
 }
 
 .entry-mode {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
-  color: var(--text-faint);
+  color: var(--text-dim);
   background: var(--surface-2);
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 999px;
 }
 .entry-mode.is-edit { color: var(--orange); }
@@ -253,8 +260,8 @@ body {
 }
 .checkbox input { position: absolute; opacity: 0; width: 0; height: 0; }
 .checkbox__box {
-  width: 22px; height: 22px;
-  border-radius: 6px;
+  width: 26px; height: 26px;
+  border-radius: 7px;
   border: 2px solid var(--text-faint);
   flex-shrink: 0;
   position: relative;
@@ -267,22 +274,22 @@ body {
 .checkbox input:checked + .checkbox__box::after {
   content: '';
   position: absolute;
-  left: 6px; top: 2px;
-  width: 6px; height: 11px;
+  left: 7px; top: 3px;
+  width: 7px; height: 13px;
   border: solid #08281A;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
-.checkbox__label { font-size: 14px; font-weight: 500; }
+.checkbox__label { font-size: 17px; font-weight: 500; }
 
 .time-select {
   background: var(--bg);
   border: 1px solid var(--border);
   color: var(--text);
   border-radius: var(--radius-sm);
-  padding: 8px 10px;
-  font-size: 14px;
-  min-width: 84px;
+  padding: 10px 12px;
+  font-size: 17px;
+  min-width: 92px;
 }
 .time-select:disabled {
   opacity: 0.35;
@@ -302,10 +309,10 @@ body {
 .range-switch__btn {
   border: none;
   background: transparent;
-  color: var(--text-faint);
-  font-size: 12px;
+  color: var(--text-dim);
+  font-size: 14px;
   font-weight: 700;
-  padding: 6px 11px;
+  padding: 7px 13px;
   border-radius: 999px;
   cursor: pointer;
 }
@@ -316,8 +323,8 @@ body {
 .chart-wrap { position: relative; width: 100%; }
 .chart-empty {
   text-align: center;
-  color: var(--text-faint);
-  font-size: 13px;
+  color: var(--text-dim);
+  font-size: 16px;
   padding: 24px 0 4px;
   margin: 0;
 }
@@ -325,22 +332,22 @@ body {
 /* ===== AIカード ===== */
 .ai-hint {
   margin: 0;
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.7;
-  color: var(--text-faint);
+  color: var(--text-dim);
   background: var(--surface-2);
   border-radius: var(--radius-sm);
-  padding: 14px;
+  padding: 16px;
 }
 .ai-result {
-  font-size: 14px;
+  font-size: 17px;
   line-height: 1.8;
   white-space: pre-wrap;
   color: var(--text);
   background: var(--surface-2);
   border-left: 3px solid var(--purple);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  padding: 14px 16px;
+  padding: 16px 18px;
 }
 
 /* ===== トースト ===== */
@@ -352,9 +359,9 @@ body {
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text);
-  padding: 12px 20px;
+  padding: 14px 22px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   box-shadow: 0 10px 24px rgba(0,0,0,0.4);
   opacity: 0;
@@ -393,7 +400,7 @@ body {
 /* ===== レスポンシブ（少し広い画面でも中央寄せの1カラムを維持） ===== */
 @media (min-width: 600px) {
   .app { padding-top: 32px; }
-  .app-title { font-size: 32px; }
+  .app-title { font-size: 38px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
