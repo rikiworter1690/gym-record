@@ -1,0 +1,26 @@
+{
+  "name": "ジム通い記録",
+  "short_name": "ジム記録",
+  "description": "ジム通い・体重推移を記録し、AIがダイエットをアドバイスするアプリ",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14171F",
+  "theme_color": "#14171F",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

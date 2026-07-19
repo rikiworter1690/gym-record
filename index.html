@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>ジム通い記録</title>
+
+<!-- ===== PWA / iOS 対応 ===== -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#14171F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ジム通い記録">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ヘッダー -->
+  <header class="header">
+    <h1 class="app-title">ジム通い記録</h1>
+    <div class="month-badge">
+      <span class="month-badge__label">今月</span>
+      <span class="month-badge__count" id="monthlyCount">--</span>
+      <span class="month-badge__unit">回達成！</span>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- 目標カード -->
+    <section class="card card--goal">
+      <div class="card__head">
+        <h2 class="card__title"><span class="dot dot--orange"></span>目標</h2>
+        <button class="btn btn--ghost" id="editGoalBtn">目標を入力</button>
+      </div>
+      <p class="goal-text" id="goalText">まだ目標が設定されていません</p>
+    </section>
+
+    <!-- データ登録エリア -->
+    <section class="card card--entry">
+      <div class="card__head">
+        <h2 class="card__title"><span class="dot dot--mint"></span>記録する</h2>
+        <span class="entry-mode" id="entryMode">新規登録</span>
+      </div>
+
+      <div class="field">
+        <label for="dateInput">日付</label>
+        <input type="date" id="dateInput">
+      </div>
+
+      <div class="field">
+        <label for="weightInput">体重 (kg)</label>
+        <input type="number" id="weightInput" step="0.01" min="0" placeholder="例）62.35">
+      </div>
+
+      <div class="exercise-grid">
+
+        <div class="exercise-row" data-exercise="walking">
+          <label class="checkbox">
+            <input type="checkbox" id="walkingCheck">
+            <span class="checkbox__box"></span>
+            <span class="checkbox__label">ウォーキング</span>
+          </label>
+          <select id="walkingMin" class="time-select" disabled></select>
+        </div>
+
+        <div class="exercise-row" data-exercise="upper">
+          <label class="checkbox">
+            <input type="checkbox" id="upperCheck">
+            <span class="checkbox__box"></span>
+            <span class="checkbox__label">筋トレ（上半身）</span>
+          </label>
+          <select id="upperMin" class="time-select" disabled></select>
+        </div>
+
+        <div class="exercise-row" data-exercise="lower">
+          <label class="checkbox">
+            <input type="checkbox" id="lowerCheck">
+            <span class="checkbox__box"></span>
+            <span class="checkbox__label">筋トレ（下半身）</span>
+          </label>
+          <select id="lowerMin" class="time-select" disabled></select>
+        </div>
+
+      </div>
+
+      <div class="field">
+        <label for="noteInput">備考</label>
+        <textarea id="noteInput" rows="2" placeholder="自由メモ"></textarea>
+      </div>
+
+      <div class="entry-actions">
+        <button class="btn btn--primary" id="saveBtn">保存する</button>
+        <button class="btn btn--danger" id="deleteBtn" hidden>この日の記録を削除</button>
+      </div>
+    </section>
+
+    <!-- グラフエリア -->
+    <section class="card card--chart">
+      <div class="card__head">
+        <h2 class="card__title"><span class="dot dot--blue"></span>体重の推移</h2>
+        <div class="range-switch" id="rangeSwitch">
+          <button class="range-switch__btn is-active" data-range="30">1ヶ月</button>
+          <button class="range-switch__btn" data-range="90">3ヶ月</button>
+          <button class="range-switch__btn" data-range="365">1年</button>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="weightChart" height="220"></canvas>
+      </div>
+      <p class="chart-empty" id="chartEmpty" hidden>まだ体重データがありません。記録を追加してみましょう。</p>
+    </section>
+
+    <!-- AI分析エリア -->
+    <section class="card card--ai">
+      <div class="card__head">
+        <h2 class="card__title"><span class="dot dot--purple"></span>AIパーソナルトレーナー分析</h2>
+        <button class="btn btn--accent" id="aiAnalyzeBtn">AI分析</button>
+      </div>
+      <p class="ai-hint" id="aiHint">データがたまると、ここにAIのアドバイスが表示されます。まずは1週間続けてみましょう！</p>
+      <div class="ai-result" id="aiResult" hidden></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- トースト通知 -->
+<div class="toast" id="toast"></div>
+
+<!-- ローディングオーバーレイ -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+
+<script>
+// ===== Service Worker 登録（PWA化） =====
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function (err) {
+      console.error('SW registration failed:', err);
+    });
+  });
+}
+</script>
+
+</body>
+</html>
