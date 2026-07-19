@@ -288,7 +288,7 @@ body {
   color: var(--text);
   border-radius: var(--radius-sm);
   padding: 10px 12px;
-  font-size: 17px;
+  font-size: 18px;
   min-width: 92px;
 }
 .time-select:disabled {
