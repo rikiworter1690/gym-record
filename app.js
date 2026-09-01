@@ -8,7 +8,7 @@ const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzSywGVmH1bkaeV
 const state = {
   monthlyCount: 0,
   goalText: '',
-  records: [],       // 過去1年分 {date, weight, walking, walkingMin, upper, upperMin, lower, lowerMin, note}
+  records: [],       // 過去1年分 {date, weight, walking, walkingMin, swim, swimMin, aero, aeroMin, note}
   recordsByDate: {},
   currentRange: 30,
   editingDate: null,  // フォームが既存日付を編集中なら日付文字列、新規なら null
@@ -28,10 +28,10 @@ const el = {
 
   walkingCheck: document.getElementById('walkingCheck'),
   walkingMin: document.getElementById('walkingMin'),
-  upperCheck: document.getElementById('upperCheck'),
-  upperMin: document.getElementById('upperMin'),
-  lowerCheck: document.getElementById('lowerCheck'),
-  lowerMin: document.getElementById('lowerMin'),
+  swimCheck: document.getElementById('swimCheck'),
+  swimMin: document.getElementById('swimMin'),
+  aeroCheck: document.getElementById('aeroCheck'),
+  aeroMin: document.getElementById('aeroMin'),
 
   saveBtn: document.getElementById('saveBtn'),
   deleteBtn: document.getElementById('deleteBtn'),
@@ -128,10 +128,10 @@ function setupTimeSyncRow(checkboxEl, selectEl) {
 }
 
 function initForm() {
-  [el.walkingMin, el.upperMin, el.lowerMin].forEach(populateTimeSelect);
+  [el.walkingMin, el.swimMin, el.aeroMin].forEach(populateTimeSelect);
   setupTimeSyncRow(el.walkingCheck, el.walkingMin);
-  setupTimeSyncRow(el.upperCheck, el.upperMin);
-  setupTimeSyncRow(el.lowerCheck, el.lowerMin);
+  setupTimeSyncRow(el.swimCheck, el.swimMin);
+  setupTimeSyncRow(el.aeroCheck, el.aeroMin);
 
   el.dateInput.value = todayInputValue();
   el.dateInput.addEventListener('change', onDateChange);
@@ -223,8 +223,8 @@ function onDateChange() {
     el.noteInput.value = record.note || '';
 
     setExerciseUI(el.walkingCheck, el.walkingMin, record.walking, record.walkingMin);
-    setExerciseUI(el.upperCheck, el.upperMin, record.upper, record.upperMin);
-    setExerciseUI(el.lowerCheck, el.lowerMin, record.lower, record.lowerMin);
+    setExerciseUI(el.swimCheck, el.swimMin, record.swim, record.swimMin);
+    setExerciseUI(el.aeroCheck, el.aeroMin, record.aero, record.aeroMin);
   } else {
     state.editingDate = null;
     el.entryMode.textContent = '新規登録';
@@ -234,8 +234,8 @@ function onDateChange() {
     el.weightInput.value = '';
     el.noteInput.value = '';
     setExerciseUI(el.walkingCheck, el.walkingMin, false, 0);
-    setExerciseUI(el.upperCheck, el.upperMin, false, 0);
-    setExerciseUI(el.lowerCheck, el.lowerMin, false, 0);
+    setExerciseUI(el.swimCheck, el.swimMin, false, 0);
+    setExerciseUI(el.aeroCheck, el.aeroMin, false, 0);
   }
 }
 
@@ -256,10 +256,10 @@ function buildRecordFromForm() {
     weight: isNaN(weight) ? null : Math.round(weight * 100) / 100,
     walking: el.walkingCheck.checked,
     walkingMin: el.walkingCheck.checked ? Number(el.walkingMin.value) : 0,
-    upper: el.upperCheck.checked,
-    upperMin: el.upperCheck.checked ? Number(el.upperMin.value) : 0,
-    lower: el.lowerCheck.checked,
-    lowerMin: el.lowerCheck.checked ? Number(el.lowerMin.value) : 0,
+    swim: el.swimCheck.checked,
+    swimMin: el.swimCheck.checked ? Number(el.swimMin.value) : 0,
+    aero: el.aeroCheck.checked,
+    aeroMin: el.aeroCheck.checked ? Number(el.aeroMin.value) : 0,
     note: el.noteInput.value || ''
   };
 }
