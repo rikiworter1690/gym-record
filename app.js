@@ -98,7 +98,7 @@ async function callPost(action, body) {
 
 function populateTimeSelect(selectEl) {
   selectEl.innerHTML = '';
-  for (let m = 30; m <= 120; m += 30) {
+  for (let m = 0; m <= 120; m += 30) {
     const opt = document.createElement('option');
     opt.value = String(m);
     opt.textContent = m + '分';
